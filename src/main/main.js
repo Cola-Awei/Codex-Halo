@@ -1,6 +1,10 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  findLatestCodexSessionFile,
+  readStatusFromCodexSession,
+} from './codex-session-status.js';
 import { buildContextMenuTemplate, getHaloSizeOption } from './context-menu-model.js';
 import { buildWindowOptions } from './window-config.js';
 
@@ -9,6 +13,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let mainWindow;
 let currentSize = 'medium';
 let dragOffset;
+let statusTimer;
+let currentStatus = 'waiting';
+let sessionFile;
 
 function applyHaloSize(sizeKey) {
   currentSize = getHaloSizeOption(sizeKey).key;
@@ -53,6 +60,24 @@ function endDrag() {
   dragOffset = undefined;
 }
 
+function pushStatus() {
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+  sessionFile = sessionFile ?? findLatestCodexSessionFile();
+  const nextStatus = readStatusFromCodexSession(sessionFile);
+  if (nextStatus !== currentStatus) {
+    currentStatus = nextStatus;
+    mainWindow.webContents.send('halo:state', currentStatus);
+  }
+}
+
+function startStatusMonitor() {
+  pushStatus();
+  statusTimer = setInterval(() => {
+    sessionFile = findLatestCodexSessionFile();
+    pushStatus();
+  }, 1000);
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow(buildWindowOptions(currentSize));
   mainWindow.setAlwaysOnTop(true, 'floating');
@@ -60,6 +85,8 @@ function createWindow() {
   mainWindow.webContents.on('context-menu', showContextMenu);
   mainWindow.webContents.once('did-finish-load', () => {
     mainWindow.webContents.send('halo:size', currentSize);
+    mainWindow.webContents.send('halo:state', currentStatus);
+    startStatusMonitor();
   });
 }
 
@@ -69,6 +96,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  if (statusTimer) clearInterval(statusTimer);
   app.quit();
 });
 

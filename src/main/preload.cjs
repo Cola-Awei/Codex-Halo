@@ -1,6 +1,11 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('codexHalo', {
+  onStateChange: (callback) => {
+    const listener = (_event, state) => callback(state);
+    ipcRenderer.on('halo:state', listener);
+    return () => ipcRenderer.removeListener('halo:state', listener);
+  },
   onSizeChange: (callback) => {
     const listener = (_event, size) => callback(size);
     ipcRenderer.on('halo:size', listener);

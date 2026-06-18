@@ -25,3 +25,7 @@ test('puts the conic gradient and animation on the outer ring only', () => {
 test('does not use native drag regions so right-click can open the app menu', () => {
   assert.doesNotMatch(css, /-webkit-app-region:\s*drag/);
 });
+
+test('does not keep removed state classes in the stylesheet', () => {
+  assert.doesNotMatch(css, /state-idle|state-running/);
+});

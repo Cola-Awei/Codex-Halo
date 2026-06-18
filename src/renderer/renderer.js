@@ -1,11 +1,10 @@
 import { getHaloViewState } from './halo-view-model.js';
-import { nextState } from '../shared/status-model.js';
 
 const halo = document.querySelector('#halo');
 const stateZh = document.querySelector('#stateZh');
 const stateEn = document.querySelector('#stateEn');
 const stateHint = document.querySelector('#stateHint');
-let currentState = 'idle';
+let currentState = 'waiting';
 let currentSize = 'medium';
 let dragging = false;
 
@@ -23,13 +22,7 @@ function renderSize(value) {
   renderState(currentState);
 }
 
-function advanceState() {
-  renderState(nextState(currentState));
-}
-
-renderState('idle');
-
-setInterval(advanceState, 4000);
+renderState('waiting');
 
 window.addEventListener('contextmenu', (event) => {
   event.preventDefault();
@@ -38,6 +31,7 @@ window.addEventListener('contextmenu', (event) => {
 
 if (window.codexHalo) {
   window.codexHalo.onSizeChange(renderSize);
+  window.codexHalo.onStateChange(renderState);
 }
 
 window.addEventListener('pointerdown', (event) => {

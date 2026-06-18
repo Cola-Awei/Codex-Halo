@@ -131,17 +131,6 @@ body {
   --spin-speed: 7s;
 }
 
-.state-running {
-  --bright: #c7ffdc;
-  --mid: #67f59b;
-  --dim: #125032;
-  --glow-strong: rgba(199, 255, 220, 0.88);
-  --glow: rgba(103, 245, 155, 0.56);
-  --glow-soft: rgba(70, 236, 129, 0.2);
-  --breath-speed: 1.9s;
-  --spin-speed: 3.6s;
-}
-
 .state-waiting {
   --bright: #ffe6a8;
   --mid: #ffbd5a;
@@ -162,8 +151,7 @@ body {
   --breath-speed: 2.4s;
 }
 
-.state-thinking .halo-ring,
-.state-running .halo-ring {
+.state-thinking .halo-ring {
   animation:
     halo-breathe var(--breath-speed) ease-in-out infinite,
     halo-spin var(--spin-speed) linear infinite;
