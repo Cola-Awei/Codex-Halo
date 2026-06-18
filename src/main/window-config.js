@@ -1,12 +1,14 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { getHaloSizeOption } from './context-menu-model.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export function buildWindowOptions() {
+export function buildWindowOptions(sizeKey = 'medium') {
+  const size = getHaloSizeOption(sizeKey).windowSize;
   return {
-    width: 300,
-    height: 300,
+    width: size,
+    height: size,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
@@ -14,7 +16,7 @@ export function buildWindowOptions() {
     skipTaskbar: false,
     backgroundColor: '#00000000',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
     },
