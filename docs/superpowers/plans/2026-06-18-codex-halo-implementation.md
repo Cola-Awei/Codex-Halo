@@ -16,11 +16,11 @@
 - Create `src/shared/status-model.js`: canonical state list, normalization, and next-state helper.
 - Create `src/renderer/halo-view-model.js`: maps state keys to Chinese/English labels, hints, and CSS class names.
 - Create `src/main/window-config.js`: pure function that returns Electron `BrowserWindow` options.
-- Create `src/main/main.js`: Electron entry point, creates transparent frameless always-on-top window, cycles mock statuses.
-- Create `src/main/preload.js`: exposes status events to the renderer through a narrow API.
+- Create `src/main/main.js`: Electron entry point, creates transparent frameless always-on-top window.
+- Create `src/main/preload.js`: keeps a narrow bridge available for future live status integration.
 - Create `src/renderer/index.html`: minimal circular widget markup.
 - Create `src/renderer/styles.css`: transparent body and Halo ring visual/animations.
-- Create `src/renderer/renderer.js`: receives state changes and updates DOM.
+- Create `src/renderer/renderer.js`: runs the local mock status cycle and updates DOM.
 - Create `tests/status-model.test.js`: tests state normalization and sequencing.
 - Create `tests/halo-view-model.test.js`: tests display mapping for the visual layer.
 - Create `tests/window-config.test.js`: tests the frameless transparent always-on-top window contract.
@@ -245,34 +245,18 @@ Expected: PASS for status, view, and window config tests.
 
 ```js
 // src/main/main.js
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildWindowOptions } from './window-config.js';
-import { nextState } from '../shared/status-model.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let mainWindow;
-let currentState = 'idle';
-let cycleTimer;
-
-function sendState() {
-  if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.webContents.send('halo:state', currentState);
-  }
-}
 
 function createWindow() {
   mainWindow = new BrowserWindow(buildWindowOptions());
   mainWindow.setAlwaysOnTop(true, 'floating');
   mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
-
-  mainWindow.webContents.once('did-finish-load', sendState);
-
-  cycleTimer = setInterval(() => {
-    currentState = nextState(currentState);
-    sendState();
-  }, 4000);
 }
 
 app.whenReady().then(() => {
@@ -281,15 +265,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (cycleTimer) clearInterval(cycleTimer);
   app.quit();
-});
-
-ipcMain.handle('halo:get-state', () => currentState);
-ipcMain.handle('halo:next-state', () => {
-  currentState = nextState(currentState);
-  sendState();
-  return currentState;
 });
 ```
 
@@ -338,30 +314,35 @@ contextBridge.exposeInMainWorld('codexHalo', {
 ```js
 // src/renderer/renderer.js
 import { getHaloViewState } from './halo-view-model.js';
+import { nextState } from '../shared/status-model.js';
 
 const halo = document.querySelector('#halo');
 const stateZh = document.querySelector('#stateZh');
 const stateEn = document.querySelector('#stateEn');
 const stateHint = document.querySelector('#stateHint');
+let currentState = 'idle';
 
 function renderState(value) {
   const view = getHaloViewState(value);
+  currentState = view.key;
   halo.className = `halo ${view.className}`;
   stateZh.textContent = view.zh;
   stateEn.textContent = view.en;
   stateHint.textContent = view.hint;
 }
 
+function advanceState() {
+  renderState(nextState(currentState));
+}
+
 renderState('idle');
 
-if (window.codexHalo) {
-  window.codexHalo.getState().then(renderState);
-  window.codexHalo.onStateChange(renderState);
-  window.addEventListener('contextmenu', async (event) => {
-    event.preventDefault();
-    renderState(await window.codexHalo.nextState());
-  });
-}
+setInterval(advanceState, 4000);
+
+window.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+  advanceState();
+});
 ```
 
 - [ ] **Step 4: Run tests**

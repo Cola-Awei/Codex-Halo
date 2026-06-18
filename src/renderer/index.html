@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex Halo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="halo state-idle" id="halo">
+      <section class="halo-core" aria-live="polite">
+        <div class="halo-text">
+          <div class="state-zh" id="stateZh">待命</div>
+          <div class="state-en" id="stateEn">Idle</div>
+          <div class="state-hint" id="stateHint">等待输入</div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./renderer.js"></script>
+  </body>
+</html>

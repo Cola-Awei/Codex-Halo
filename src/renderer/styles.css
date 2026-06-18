@@ -1,0 +1,174 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.halo {
+  --bright: #bffaff;
+  --mid: #7df0ff;
+  --dim: #0f3f55;
+  --glow-strong: rgba(179, 249, 255, 0.86);
+  --glow: rgba(111, 229, 255, 0.46);
+  --glow-soft: rgba(70, 202, 236, 0.18);
+  --breath-speed: 4.8s;
+  --spin-speed: 10s;
+
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    from 12deg,
+    var(--dim) 0deg 54deg,
+    var(--bright) 54deg 137deg,
+    var(--mid) 137deg 174deg,
+    var(--dim) 174deg 224deg,
+    var(--bright) 224deg 299deg,
+    var(--dim) 299deg 360deg
+  );
+  box-shadow:
+    0 0 16px var(--glow-strong),
+    0 0 42px var(--glow),
+    0 0 72px var(--glow-soft);
+  animation: halo-breathe var(--breath-speed) ease-in-out infinite;
+}
+
+.halo::before {
+  content: "";
+  position: absolute;
+  inset: 21px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #101820 0%, #080d12 72%, #030506 100%);
+  box-shadow: inset 0 0 36px rgba(255, 255, 255, 0.03);
+}
+
+.halo-core {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  background: rgba(18, 25, 32, 0.72);
+  display: grid;
+  place-items: center;
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.02);
+}
+
+.state-zh,
+.state-en {
+  font-family: Georgia, "Times New Roman", "Microsoft YaHei", serif;
+  font-weight: 700;
+  line-height: 1.04;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
+}
+
+.state-zh {
+  font-size: 29px;
+}
+
+.state-en {
+  font-size: 26px;
+}
+
+.state-hint {
+  margin-top: 12px;
+  font-size: 10px;
+  color: #a6bbc8;
+}
+
+.state-thinking {
+  --bright: #d4fbff;
+  --mid: #7fdcff;
+  --dim: #124f73;
+  --glow-strong: rgba(212, 251, 255, 0.92);
+  --glow: rgba(111, 220, 255, 0.62);
+  --glow-soft: rgba(70, 184, 236, 0.24);
+  --breath-speed: 3.2s;
+  --spin-speed: 7s;
+  animation:
+    halo-breathe var(--breath-speed) ease-in-out infinite,
+    halo-spin var(--spin-speed) linear infinite;
+}
+
+.state-running {
+  --bright: #c7ffdc;
+  --mid: #67f59b;
+  --dim: #125032;
+  --glow-strong: rgba(199, 255, 220, 0.88);
+  --glow: rgba(103, 245, 155, 0.56);
+  --glow-soft: rgba(70, 236, 129, 0.2);
+  --breath-speed: 1.9s;
+  --spin-speed: 3.6s;
+  animation:
+    halo-breathe var(--breath-speed) ease-in-out infinite,
+    halo-spin var(--spin-speed) linear infinite;
+}
+
+.state-waiting {
+  --bright: #ffe6a8;
+  --mid: #ffbd5a;
+  --dim: #5a3c12;
+  --glow-strong: rgba(255, 230, 168, 0.9);
+  --glow: rgba(255, 189, 90, 0.56);
+  --glow-soft: rgba(255, 175, 70, 0.2);
+  --breath-speed: 1.3s;
+  animation: halo-alert var(--breath-speed) ease-in-out infinite;
+}
+
+.state-done {
+  --bright: #e7dcff;
+  --mid: #b794ff;
+  --dim: #44305f;
+  --glow-strong: rgba(231, 220, 255, 0.9);
+  --glow: rgba(183, 148, 255, 0.55);
+  --glow-soft: rgba(155, 112, 255, 0.2);
+  --breath-speed: 2.4s;
+}
+
+@keyframes halo-breathe {
+  0%,
+  100% {
+    filter: brightness(0.9);
+    transform: scale(0.985);
+  }
+
+  50% {
+    filter: brightness(1.12);
+    transform: scale(1);
+  }
+}
+
+@keyframes halo-alert {
+  0%,
+  100% {
+    filter: brightness(0.82);
+    transform: scale(0.98);
+  }
+
+  45%,
+  55% {
+    filter: brightness(1.22);
+    transform: scale(1.01);
+  }
+}
+
+@keyframes halo-spin {
+  to {
+    rotate: 360deg;
+  }
+}
