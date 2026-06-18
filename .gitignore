@@ -3,3 +3,7 @@ node_modules/
 dist/
 build/
 *.log
+.halo-app.pid
+codex-halo-status-fix.png
+docs/previews/
+docs/superpowers/

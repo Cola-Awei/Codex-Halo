@@ -6,21 +6,21 @@ import {
   normalizeState,
 } from '../src/shared/status-model.js';
 
-test('defines only the three approved Codex Halo states in order', () => {
-  assert.deepEqual(STATE_KEYS, ['waiting', 'thinking', 'done']);
+test('defines only the two approved Codex Halo states in order', () => {
+  assert.deepEqual(STATE_KEYS, ['thinking', 'done']);
 });
 
-test('normalizes unknown states to waiting', () => {
+test('normalizes unknown states to thinking', () => {
   assert.equal(normalizeState('thinking'), 'thinking');
-  assert.equal(normalizeState('missing'), 'waiting');
-  assert.equal(normalizeState(undefined), 'waiting');
+  assert.equal(normalizeState('missing'), 'thinking');
+  assert.equal(normalizeState(undefined), 'thinking');
 });
 
-test('returns labels and hints for waiting', () => {
-  assert.deepEqual(getStatus('waiting'), {
-    key: 'waiting',
-    zh: '等待',
-    en: 'Waiting',
-    hint: '等待输入',
+test('returns labels and hints for thinking', () => {
+  assert.deepEqual(getStatus('thinking'), {
+    key: 'thinking',
+    zh: '思考',
+    en: 'Thinking',
+    hint: '正在思考',
   });
 });

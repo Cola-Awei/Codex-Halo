@@ -4,25 +4,25 @@ const halo = document.querySelector('#halo');
 const stateZh = document.querySelector('#stateZh');
 const stateEn = document.querySelector('#stateEn');
 const stateHint = document.querySelector('#stateHint');
-let currentState = 'waiting';
-let currentSize = 'medium';
+let currentState = 'thinking';
+let currentSize = '30';
 let dragging = false;
 
 function renderState(value) {
   const view = getHaloViewState(value);
   currentState = view.key;
-  halo.className = `halo halo-size-${currentSize} ${view.className}`;
+  halo.className = `halo halo-scale-${currentSize} ${view.className}`;
   stateZh.textContent = view.zh;
   stateEn.textContent = view.en;
   stateHint.textContent = view.hint;
 }
 
 function renderSize(value) {
-  currentSize = ['small', 'medium', 'large'].includes(value) ? value : 'medium';
+  currentSize = ['10', '20', '30', '40', '50', '60'].includes(String(value)) ? String(value) : '30';
   renderState(currentState);
 }
 
-renderState('waiting');
+renderState('thinking');
 
 window.addEventListener('contextmenu', (event) => {
   event.preventDefault();

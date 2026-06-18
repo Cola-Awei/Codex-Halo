@@ -2,40 +2,43 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-const DONE_VISIBLE_MS = 8000;
-
 export function inferStatusFromEvent(event, nowMs = Date.now()) {
-  if (!event || typeof event !== 'object') return 'waiting';
+  return inferStatusTransitionFromEvent(event, nowMs) ?? 'thinking';
+}
 
+function inferStatusTransitionFromEvent(event, nowMs = Date.now()) {
+  if (!event || typeof event !== 'object') return undefined;
   const payload = event.payload ?? {};
+
   if (event.type === 'response_item') {
     if (payload.type === 'reasoning' || payload.type === 'function_call') {
       return 'thinking';
     }
     if (payload.type === 'message' && payload.role === 'assistant') {
-      return inferDoneOrWaiting(event, nowMs);
+      return payload.phase === 'final_answer' ? 'done' : 'thinking';
     }
   }
 
   if (event.type === 'event_msg') {
     if (payload.type === 'user_message') return 'thinking';
     if (payload.type === 'agent_message') {
-      return payload.phase === 'final_answer' ? inferDoneOrWaiting(event, nowMs) : 'thinking';
+      return payload.phase === 'final_answer' ? 'done' : 'thinking';
     }
   }
 
-  return 'waiting';
+  return undefined;
 }
 
 export function inferStatusFromSessionLines(lines, nowMs = Date.now()) {
   for (let index = lines.length - 1; index >= 0; index -= 1) {
     try {
-      return inferStatusFromEvent(JSON.parse(lines[index]), nowMs);
+      const status = inferStatusTransitionFromEvent(JSON.parse(lines[index]), nowMs);
+      if (status) return status;
     } catch {
       // Ignore partial or non-JSON lines while the log is being written.
     }
   }
-  return 'waiting';
+  return 'thinking';
 }
 
 export function findLatestCodexSessionFile(homeDir = os.homedir()) {
@@ -47,17 +50,9 @@ export function findLatestCodexSessionFile(homeDir = os.homedir()) {
 }
 
 export function readStatusFromCodexSession(filePath, nowMs = Date.now()) {
-  if (!filePath || !fs.existsSync(filePath)) return 'waiting';
+  if (!filePath || !fs.existsSync(filePath)) return 'thinking';
   const content = fs.readFileSync(filePath, 'utf8');
   return inferStatusFromSessionLines(content.trimEnd().split(/\r?\n/), nowMs);
-}
-
-function inferDoneOrWaiting(event, nowMs) {
-  const eventMs = Date.parse(event.timestamp ?? '');
-  if (Number.isFinite(eventMs) && nowMs - eventMs <= DONE_VISIBLE_MS) {
-    return 'done';
-  }
-  return 'waiting';
 }
 
 function collectJsonlFiles(dir, files) {

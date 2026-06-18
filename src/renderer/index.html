@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="halo halo-size-medium state-waiting" id="halo">
-      <div class="halo-ring" aria-hidden="true"></div>
+    <main class="halo halo-scale-30 state-thinking" id="halo">
+      <svg class="halo-ring" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="halo-arc halo-arc-shadow" cx="50" cy="50" r="40"></circle>
+        <circle class="halo-arc halo-arc-main" cx="50" cy="50" r="40"></circle>
+      </svg>
       <section class="halo-core" aria-live="polite">
         <div class="halo-text">
-          <div class="state-zh" id="stateZh">等待</div>
-          <div class="state-en" id="stateEn">Waiting</div>
-          <div class="state-hint" id="stateHint">等待输入</div>
+          <div class="state-zh" id="stateZh">思考</div>
+          <div class="state-en" id="stateEn">Thinking</div>
+          <div class="state-hint" id="stateHint">正在思考</div>
         </div>
       </section>
     </main>

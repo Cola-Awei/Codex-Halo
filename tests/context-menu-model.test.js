@@ -3,27 +3,31 @@ import assert from 'node:assert/strict';
 import {
   HALO_SIZE_OPTIONS,
   buildContextMenuTemplate,
+  buildTrayMenuTemplate,
   getHaloSizeOption,
 } from '../src/main/context-menu-model.js';
 
-test('defines three right-click size options', () => {
+test('defines numeric right-click scale options', () => {
   assert.deepEqual(
     HALO_SIZE_OPTIONS.map((option) => [option.key, option.label, option.windowSize]),
     [
-      ['small', '小号', 240],
-      ['medium', '中号', 300],
-      ['large', '大号', 380],
+      ['10', '10', 160],
+      ['20', '20', 220],
+      ['30', '30', 300],
+      ['40', '40', 380],
+      ['50', '50', 460],
+      ['60', '60', 540],
     ],
   );
 });
 
-test('falls back to medium size for unknown values', () => {
-  assert.equal(getHaloSizeOption('missing').key, 'medium');
+test('falls back to scale 30 for unknown values', () => {
+  assert.equal(getHaloSizeOption('missing').key, '30');
 });
 
-test('builds menu with size radio items and close command', () => {
+test('builds window menu with scale radio items and hide command', () => {
   const template = buildContextMenuTemplate({
-    currentSize: 'large',
+    currentSize: '40',
     onSizeChange: () => {},
     onClose: () => {},
   });
@@ -31,11 +35,40 @@ test('builds menu with size radio items and close command', () => {
   assert.deepEqual(
     template.map((item) => [item.label, item.type, item.checked ?? false]),
     [
-      ['小号', 'radio', false],
-      ['中号', 'radio', false],
-      ['大号', 'radio', true],
+      ['10', 'radio', false],
+      ['20', 'radio', false],
+      ['30', 'radio', false],
+      ['40', 'radio', true],
+      ['50', 'radio', false],
+      ['60', 'radio', false],
       [undefined, 'separator', false],
-      ['关闭悬浮栏', 'normal', false],
+      ['隐藏悬浮栏', 'normal', false],
+    ],
+  );
+});
+
+test('builds tray menu with show toggle, scale items, and quit command', () => {
+  const template = buildTrayMenuTemplate({
+    currentSize: '30',
+    isVisible: false,
+    onToggleVisibility: () => {},
+    onSizeChange: () => {},
+    onQuit: () => {},
+  });
+
+  assert.deepEqual(
+    template.map((item) => [item.label, item.type, item.checked ?? false]),
+    [
+      ['显示悬浮栏', 'normal', false],
+      [undefined, 'separator', false],
+      ['10', 'radio', false],
+      ['20', 'radio', false],
+      ['30', 'radio', true],
+      ['40', 'radio', false],
+      ['50', 'radio', false],
+      ['60', 'radio', false],
+      [undefined, 'separator', false],
+      ['退出', 'normal', false],
     ],
   );
 });

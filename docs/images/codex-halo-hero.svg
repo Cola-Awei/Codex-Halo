@@ -1,0 +1,50 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="36" fill="#05080C"/>
+  <defs>
+    <radialGradient id="bgGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(790 310) rotate(128) scale(420 300)">
+      <stop stop-color="#16455D" stop-opacity="0.72"/>
+      <stop offset="0.45" stop-color="#09202D" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#05080C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="489" y="89" width="384" height="392" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="14"/>
+      <feGaussianBlur stdDeviation="18"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.078 0 0 0 0 0.50 0 0 0 0 0.68 0 0 0 0.42 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1" result="shape"/>
+    </filter>
+    <linearGradient id="arcMain" x1="517" y1="141" x2="834" y2="424" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9F9FF"/>
+      <stop offset="0.25" stop-color="#9BEEFF"/>
+      <stop offset="0.7" stop-color="#69D4F5"/>
+      <stop offset="1" stop-color="#2A8EC8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGlow)"/>
+  <g opacity="0.42">
+    <path d="M88 146H284" stroke="#123449" stroke-width="1"/>
+    <path d="M88 492H328" stroke="#123449" stroke-width="1"/>
+    <path d="M906 146H1112" stroke="#123449" stroke-width="1"/>
+    <path d="M864 492H1112" stroke="#123449" stroke-width="1"/>
+  </g>
+  <text x="92" y="224" fill="#F4FBFF" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="74" font-weight="800">Codex Halo</text>
+  <text x="96" y="286" fill="#9DB8C7" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="28">桌面悬浮 Codex 状态光环</text>
+  <text x="96" y="352" fill="#D7EFF7" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="24">思考 / 完成 两态显示</text>
+  <text x="96" y="392" fill="#D7EFF7" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="24">托盘常驻，不占任务栏</text>
+  <text x="96" y="432" fill="#D7EFF7" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="24">右键比例调节，透明置顶</text>
+  <g filter="url(#softShadow)">
+    <circle cx="690" cy="305" r="150" stroke="#185D82" stroke-width="44" stroke-linecap="round" stroke-dasharray="770 946" transform="rotate(132 690 305)"/>
+    <circle cx="690" cy="305" r="150" stroke="url(#arcMain)" stroke-width="32" stroke-linecap="round" stroke-dasharray="770 946" transform="rotate(132 690 305)"/>
+  </g>
+  <text x="689" y="326" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, Microsoft YaHei, serif" font-size="56" font-weight="700">思考</text>
+  <g transform="translate(858 214)">
+    <rect width="238" height="178" rx="24" fill="#071018" stroke="#15384D"/>
+    <circle cx="52" cy="58" r="18" fill="#9BEEFF"/>
+    <text x="86" y="64" fill="#EAF8FF" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="20" font-weight="700">Tray Mode</text>
+    <text x="32" y="112" fill="#9DB8C7" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="18">点击显示 / 隐藏</text>
+    <text x="32" y="144" fill="#9DB8C7" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="18">右键设置比例</text>
+  </g>
+</svg>

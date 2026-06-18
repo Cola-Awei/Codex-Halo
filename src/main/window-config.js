@@ -4,7 +4,7 @@ import { getHaloSizeOption } from './context-menu-model.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export function buildWindowOptions(sizeKey = 'medium') {
+export function buildWindowOptions(sizeKey = '30') {
   const size = getHaloSizeOption(sizeKey).windowSize;
   return {
     width: size,
@@ -13,7 +13,7 @@ export function buildWindowOptions(sizeKey = 'medium') {
     transparent: true,
     alwaysOnTop: true,
     resizable: false,
-    skipTaskbar: false,
+    skipTaskbar: true,
     backgroundColor: '#00000000',
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
