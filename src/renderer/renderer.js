@@ -5,20 +5,21 @@ const stateZh = document.querySelector('#stateZh');
 const stateEn = document.querySelector('#stateEn');
 const stateHint = document.querySelector('#stateHint');
 let currentState = 'thinking';
-let currentSize = '30';
+let currentSize = 30;
 let dragging = false;
 
 function renderState(value) {
   const view = getHaloViewState(value);
   currentState = view.key;
-  halo.className = `halo halo-scale-${currentSize} ${view.className}`;
+  halo.className = `halo ${view.className}`;
   stateZh.textContent = view.zh;
   stateEn.textContent = view.en;
   stateHint.textContent = view.hint;
 }
 
 function renderSize(value) {
-  currentSize = ['10', '20', '30', '40', '50', '60'].includes(String(value)) ? String(value) : '30';
+  const numericValue = Number(value);
+  currentSize = Number.isFinite(numericValue) ? Math.min(100, Math.max(0, Math.round(numericValue))) : 30;
   renderState(currentState);
 }
 
@@ -26,7 +27,7 @@ renderState('thinking');
 
 window.addEventListener('contextmenu', (event) => {
   event.preventDefault();
-  window.codexHalo?.openContextMenu();
+  window.codexHalo?.openSizePanel({ x: event.screenX, y: event.screenY });
 });
 
 if (window.codexHalo) {

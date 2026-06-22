@@ -12,6 +12,10 @@ contextBridge.exposeInMainWorld('codexHalo', {
     return () => ipcRenderer.removeListener('halo:size', listener);
   },
   openContextMenu: () => ipcRenderer.send('halo:open-menu'),
+  openSizePanel: (position) => ipcRenderer.send('halo:open-menu', position),
+  setSizePercent: (value) => ipcRenderer.send('halo:size-set', value),
+  closeSettings: () => ipcRenderer.send('halo:settings-close'),
+  hideWindow: () => ipcRenderer.send('halo:hide-window'),
   startDrag: (position) => ipcRenderer.send('halo:drag-start', position),
   moveDrag: (position) => ipcRenderer.send('halo:drag-move', position),
   endDrag: () => ipcRenderer.send('halo:drag-end'),

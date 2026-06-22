@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex Halo Settings</title>
+    <link rel="stylesheet" href="./settings.css" />
+  </head>
+  <body>
+    <section class="panel" aria-label="Codex Halo 大小设置">
+      <header class="panel-header">
+        <div class="title">悬浮栏大小</div>
+        <output class="value" id="sizeValue">30%</output>
+      </header>
+
+      <div class="slider-wrap">
+        <input id="sizeSlider" class="slider" type="range" min="0" max="100" step="1" value="30" />
+        <div class="ticks" aria-hidden="true">
+          <span>0</span>
+          <span>50</span>
+          <span>100</span>
+        </div>
+      </div>
+
+      <footer class="actions">
+        <button class="ghost" id="hideButton" type="button">隐藏</button>
+        <button class="primary" id="closeButton" type="button">完成</button>
+      </footer>
+    </section>
+    <script type="module" src="./settings.js"></script>
+  </body>
+</html>

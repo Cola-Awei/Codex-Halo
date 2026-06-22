@@ -14,8 +14,8 @@ test('builds a transparent frameless always-on-top floating window hidden from t
   assert.equal(options.backgroundColor, '#00000000');
 });
 
-test('builds window dimensions from requested halo scale', () => {
-  assert.equal(buildWindowOptions('10').width, 160);
-  assert.equal(buildWindowOptions('60').height, 540);
+test('builds window dimensions from requested halo percentage', () => {
+  assert.equal(buildWindowOptions(0).width, 120);
+  assert.equal(buildWindowOptions(100).height, 720);
   assert.equal(buildWindowOptions('unknown').width, 300);
 });

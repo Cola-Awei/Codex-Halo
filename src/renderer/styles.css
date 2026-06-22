@@ -16,9 +16,9 @@ body {
 }
 
 .halo {
-  --halo-size: 260px;
-  --core-size: 116px;
-  --inner-inset: 30px;
+  --halo-size: calc(100vmin - 40px);
+  --core-size: calc(var(--halo-size) * 0.446);
+  --inner-inset: calc(var(--halo-size) * 0.115);
   --arc-color: #9beeff;
   --arc-inner: #e9fbff;
   --arc-edge: #55c8f4;
@@ -34,42 +34,6 @@ body {
   place-items: center;
 }
 
-.halo-scale-10 {
-  --halo-size: 138px;
-  --core-size: 62px;
-  --inner-inset: 16px;
-}
-
-.halo-scale-20 {
-  --halo-size: 190px;
-  --core-size: 84px;
-  --inner-inset: 22px;
-}
-
-.halo-scale-30 {
-  --halo-size: 260px;
-  --core-size: 116px;
-  --inner-inset: 30px;
-}
-
-.halo-scale-40 {
-  --halo-size: 330px;
-  --core-size: 148px;
-  --inner-inset: 38px;
-}
-
-.halo-scale-50 {
-  --halo-size: 400px;
-  --core-size: 180px;
-  --inner-inset: 46px;
-}
-
-.halo-scale-60 {
-  --halo-size: 470px;
-  --core-size: 212px;
-  --inner-inset: 54px;
-}
-
 .halo-ring {
   position: absolute;
   inset: 0;
@@ -77,7 +41,6 @@ body {
   height: 100%;
   overflow: visible;
   transform: rotate(-128deg);
-  filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.42));
   animation: halo-spin var(--spin-speed) linear infinite;
 }
 

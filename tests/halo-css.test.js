@@ -39,19 +39,18 @@ test('does not keep removed state classes in the stylesheet', () => {
   assert.doesNotMatch(css, /halo-size-small|halo-size-medium|halo-size-large/);
 });
 
-test('defines numeric halo scale classes', () => {
-  for (const scale of ['10', '20', '30', '40', '50', '60']) {
-    assert.match(css, new RegExp(`\\.halo-scale-${scale}\\s*\\{`));
-  }
+test('uses percentage css variables instead of fixed scale classes', () => {
+  assert.match(blockFor('.halo'), /--halo-size:\s*calc\(100vmin - 40px\)/);
+  assert.doesNotMatch(css, /\\.halo-scale-(10|20|30|40|50|60)\s*\{/);
 });
 
-test('uses a rounded svg stroke c-shaped glow ring', () => {
+test('uses a rounded svg stroke c-shaped glow ring without a window-sized shadow', () => {
   const arcBlock = blockFor('.halo-arc-main');
   const ringBlock = blockFor('.halo-ring');
   assert.match(arcBlock, /stroke-linecap:\s*round/);
   assert.match(arcBlock, /stroke-dasharray:\s*205 252/);
   assert.doesNotMatch(css, /halo-arc-highlight/);
-  assert.doesNotMatch(ringBlock, /drop-shadow\(0 0/);
+  assert.doesNotMatch(ringBlock, /filter:\s*drop-shadow/);
   assert.doesNotMatch(css, /conic-gradient|repeating-conic-gradient|border-style:\s*dashed|reverse-spin|mask:\s*radial-gradient/);
 });
 

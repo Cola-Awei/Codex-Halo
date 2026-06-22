@@ -1,11 +1,11 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getHaloSizeOption } from './context-menu-model.js';
+import { getHaloSizeFromPercent } from './halo-size-model.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export function buildWindowOptions(sizeKey = '30') {
-  const size = getHaloSizeOption(sizeKey).windowSize;
+export function buildWindowOptions(percent = 30) {
+  const size = getHaloSizeFromPercent(percent).windowSize;
   return {
     width: size,
     height: size,
