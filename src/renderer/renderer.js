@@ -1,4 +1,5 @@
 import { getHaloViewState } from './halo-view-model.js';
+import { getHaloSizeFromPercent } from '../shared/halo-size-model.js';
 
 const halo = document.querySelector('#halo');
 const stateZh = document.querySelector('#stateZh');
@@ -18,8 +19,9 @@ function renderState(value) {
 }
 
 function renderSize(value) {
-  const numericValue = Number(value);
-  currentSize = Number.isFinite(numericValue) ? Math.min(100, Math.max(0, Math.round(numericValue))) : 30;
+  const size = getHaloSizeFromPercent(value);
+  currentSize = size.percent;
+  halo.style.setProperty('--halo-size', `${size.haloSize}px`);
   renderState(currentState);
 }
 

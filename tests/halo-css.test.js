@@ -39,8 +39,9 @@ test('does not keep removed state classes in the stylesheet', () => {
   assert.doesNotMatch(css, /halo-size-small|halo-size-medium|halo-size-large/);
 });
 
-test('uses percentage css variables instead of fixed scale classes', () => {
-  assert.match(blockFor('.halo'), /--halo-size:\s*calc\(100vmin - 40px\)/);
+test('uses an explicit halo-size css variable instead of viewport-based sizing', () => {
+  assert.match(blockFor('.halo'), /--halo-size:\s*260px/);
+  assert.doesNotMatch(blockFor('.halo'), /vmin/);
   assert.doesNotMatch(css, /\\.halo-scale-(10|20|30|40|50|60)\s*\{/);
 });
 

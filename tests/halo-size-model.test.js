@@ -18,3 +18,9 @@ test('maps percentage values to real square window sizes', () => {
   assert.equal(getHaloSizeFromPercent(30).windowSize, 300);
   assert.equal(getHaloSizeFromPercent(100).windowSize, 720);
 });
+
+test('maps percentage values to fixed visual halo sizes', () => {
+  assert.equal(getHaloSizeFromPercent(0).haloSize, 80);
+  assert.equal(getHaloSizeFromPercent(30).haloSize, 260);
+  assert.equal(getHaloSizeFromPercent(100).haloSize, 680);
+});

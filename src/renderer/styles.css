@@ -16,7 +16,7 @@ body {
 }
 
 .halo {
-  --halo-size: calc(100vmin - 40px);
+  --halo-size: 260px;
   --core-size: calc(var(--halo-size) * 0.446);
   --inner-inset: calc(var(--halo-size) * 0.115);
   --arc-color: #9beeff;
